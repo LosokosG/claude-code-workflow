@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.invalid/drive/schemas/impl.json",
+  "title": "Implementation step result",
+  "description": "The machine-readable tail of an /implement-phase or /tdd-phase run. Consumed by drive-step.sh and drive-scope-check.mjs.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "commit_sha", "touched_files", "out_of_scope", "diff_lines", "gate_recorded", "notes"],
+  "properties": {
+    "status": {
+      "description": "committed — the phase landed as one commit. blocked — the phase cannot proceed (plan/reality mismatch, red gate that is not this phase's to fix). needs_input — a human decision or an action the step is not permitted to take.",
+      "enum": ["committed", "blocked", "needs_input"]
+    },
+    "commit_sha": {
+      "description": "Short SHA of the phase commit; null for any status other than committed.",
+      "type": ["string", "null"]
+    },
+    "touched_files": {
+      "description": "Every repo-relative path this step created, edited, or deleted — the same set that was staged. Not derived from git status.",
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "out_of_scope": {
+      "description": "Files touched that the phase's declared `paths:` did not cover, each with the reason it was necessary. Declared is allowed; undeclared is what triage flags as WARNING \"unplanned\".",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["file", "reason"],
+        "properties": {
+          "file": { "type": "string" },
+          "reason": { "type": "string" }
+        }
+      }
+    },
+    "diff_lines": {
+      "description": "Total changed lines in the phase commit (added + deleted), from git diff --shortstat. Compared against the row's declared size: >2x forces a drift review.",
+      "type": "integer",
+      "minimum": 0
+    },
+    "gate_recorded": {
+      "description": "True when this step ran the phase's automated Done-when criteria and recorded the result, so the reviewer reads the line instead of re-running a green gate.",
+      "type": "boolean"
+    },
+    "notes": {
+      "description": "One short paragraph for the orchestrator: what deviated from the row, what was deferred and why, or what blocked. Never a restatement of the phase title.",
+      "type": "string"
+    }
+  }
+}

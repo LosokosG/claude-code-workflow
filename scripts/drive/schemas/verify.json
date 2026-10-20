@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.invalid/drive/schemas/verify.json",
+  "title": "Live verification result",
+  "description": "The machine-readable tail of a drive-verifier smoke pass. Consumed by drive-handback.sh when it writes the hand-back block.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["flows", "screenshots", "db_asserts", "verdict"],
+  "properties": {
+    "verdict": {
+      "description": "PASS only when every flow passed with artifacts. UNVERIFIED when the harness could not be reached (no dev server, sign-in blocked) — that is an honest outcome, not a failure. FAIL on any defect.",
+      "enum": ["PASS", "FAIL", "UNVERIFIED", "SKIPPED"]
+    },
+    "flows": {
+      "description": "One entry per flow walked. A PASS with an empty evidence[] is discarded by the engine and recorded as UNVERIFIED.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "status", "evidence"],
+        "properties": {
+          "name": { "type": "string" },
+          "status": { "enum": ["PASS", "FAIL", "UNVERIFIED"] },
+          "evidence": {
+            "description": "Screenshot paths, persisted-state query output, console/network excerpts — artifacts this run produced.",
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "defect": {
+            "type": ["object", "null"],
+            "additionalProperties": false,
+            "required": ["repro_steps", "scope", "suspected_area"],
+            "properties": {
+              "repro_steps": { "type": "array", "items": { "type": "string" } },
+              "scope": { "type": "string" },
+              "frequency": { "type": "string" },
+              "suspected_area": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "screenshots": {
+      "description": "Every screenshot path produced, so the hand-back can cite them.",
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "db_asserts": {
+      "description": "One entry per write action verified against persisted state. A 200 with nothing persisted is a defect, not a pass.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["action", "query", "result"],
+        "properties": {
+          "action": { "type": "string" },
+          "query": { "type": "string" },
+          "result": { "type": "string" }
+        }
+      }
+    },
+    "notes": { "type": "string" }
+  }
+}

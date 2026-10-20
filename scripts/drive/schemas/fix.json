@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.invalid/drive/schemas/fix.json",
+  "title": "Fixer step result",
+  "description": "The machine-readable tail of a drive-fixer dispatch. drive-scope-check.mjs validates touched_files against the finding's fence (finding files union declared_extra) and rejects a violation once before re-dispatching.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["finding_id", "applied", "touched_files", "declared_extra", "note"],
+  "properties": {
+    "finding_id": { "type": "string" },
+    "applied": {
+      "description": "False is a correct outcome for an obsolete finding or one that turns out to need diagnosis — say which in note.",
+      "type": "boolean"
+    },
+    "commit_sha": { "type": ["string", "null"] },
+    "touched_files": {
+      "description": "Every repo-relative path this fix created, edited or deleted.",
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "declared_extra": {
+      "description": "Files outside the finding's own that the fix had to touch, each with the reason. Declared is allowed; undeclared is what the fence rejects.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["file", "reason"],
+        "properties": { "file": { "type": "string" }, "reason": { "type": "string" } }
+      }
+    },
+    "note": {
+      "description": "obsolete | needs-diagnosis | one line on what changed.",
+      "type": "string"
+    }
+  }
+}

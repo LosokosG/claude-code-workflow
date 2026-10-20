@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.invalid/drive/schemas/review.json",
+  "title": "Implementation review result",
+  "description": "The machine-readable tail of a /phase-review report. Consumed by drive-triage.mjs.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["verdict", "phase", "base", "head", "findings", "observations", "gate_recorded"],
+  "properties": {
+    "verdict": {
+      "description": "REJECTED on any CRITICAL; NEEDS_ATTENTION on any WARNING; APPROVED otherwise.",
+      "enum": ["APPROVED", "NEEDS_ATTENTION", "REJECTED"]
+    },
+    "phase": {
+      "description": "Phase scope reviewed, e.g. \"1\" or \"full\".",
+      "type": "string"
+    },
+    "base": {
+      "description": "Base commit-ish of the reviewed diff.",
+      "type": "string"
+    },
+    "head": {
+      "description": "Head commit-ish of the reviewed diff.",
+      "type": "string"
+    },
+    "gate_recorded": {
+      "description": "True when the implementer's automated-gate line was found (drive-log heartbeat or PR description) and read instead of re-run.",
+      "type": "boolean"
+    },
+    "observations": {
+      "description": "OBSERVATION-severity notes. Written to <work>/proposed-lessons.md, never fixed.",
+      "type": "array",
+      "maxItems": 5,
+      "items": { "type": "string" }
+    },
+    "findings": {
+      "description": "Actionable findings only. The schema enforces both floors: severity is CRITICAL or WARNING (OBSERVATION belongs in observations[], never here) and confidence is >= 80.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "severity", "confidence", "file", "line", "summary", "fix", "dimension"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^F[0-9]+$" },
+          "severity": { "enum": ["CRITICAL", "WARNING"] },
+          "confidence": { "type": "integer", "minimum": 80, "maximum": 100 },
+          "file": { "type": "string" },
+          "line": { "type": ["integer", "null"] },
+          "summary": { "type": "string" },
+          "failure_scenario": {
+            "description": "Required for CRITICAL: the concrete sequence (input, state, call order) producing the bad outcome.",
+            "type": "string"
+          },
+          "fix": { "type": "string" },
+          "dimension": { "enum": ["drift", "safety", "correctness", "patterns", "tests"] }
+        },
+        "if": {
+          "properties": { "severity": { "const": "CRITICAL" } },
+          "required": ["severity"]
+        },
+        "then": { "required": ["failure_scenario"] }
+      }
+    }
+  }
+}

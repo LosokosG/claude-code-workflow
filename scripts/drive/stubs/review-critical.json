@@ -1,0 +1,21 @@
+{
+  "verdict": "REJECTED",
+  "phase": "1",
+  "base": "HEAD~1",
+  "head": "HEAD",
+  "gate_recorded": true,
+  "findings": [
+    {
+      "id": "F1",
+      "severity": "CRITICAL",
+      "confidence": 95,
+      "file": "src/toy.ts",
+      "line": 1,
+      "summary": "toy export is not validated before use",
+      "failure_scenario": "A caller passes a negative value; the export is used as an array length and throws at request time.",
+      "fix": "Add a schema guarding the exported value and return 400 on parse failure.",
+      "dimension": "safety"
+    }
+  ],
+  "observations": []
+}

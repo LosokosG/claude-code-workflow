@@ -1,0 +1,8 @@
+{
+  "finding_id": "T1",
+  "applied": true,
+  "commit_sha": null,
+  "touched_files": ["src/toy.ts"],
+  "declared_extra": [],
+  "note": "Re-dispatched within the fence; only the finding's own file this time."
+}

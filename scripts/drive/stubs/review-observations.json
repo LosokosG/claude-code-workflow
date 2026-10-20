@@ -1,0 +1,12 @@
+{
+  "verdict": "APPROVED",
+  "phase": "1",
+  "base": "HEAD~1",
+  "head": "HEAD",
+  "gate_recorded": true,
+  "findings": [],
+  "observations": [
+    "The toy module could grow a registry pattern later; not worth doing now.",
+    "Naming is inconsistent with src/ but harmless here."
+  ]
+}

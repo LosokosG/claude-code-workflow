@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.invalid/drive/schemas/ask.json",
+  "title": "Ask result",
+  "description": "One-shot answer to `drive-ctl ask \"<question>\"`, read over the drive log and the plan. Read-only: the ask step never edits anything.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["answer"],
+  "properties": {
+    "answer": { "type": "string" },
+    "evidence": { "type": "array", "items": { "type": "string" } }
+  }
+}

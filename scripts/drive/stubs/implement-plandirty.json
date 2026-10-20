@@ -1,0 +1,11 @@
+{
+  "stub_commit": true,
+  "stub_plan_dirty": true,
+  "status": "committed",
+  "commit_sha": "pending",
+  "touched_files": ["src/toy.ts"],
+  "out_of_scope": [],
+  "diff_lines": 0,
+  "gate_recorded": true,
+  "notes": "stub implementer that flipped the Progress row but committed without it — plan.md left dirty."
+}

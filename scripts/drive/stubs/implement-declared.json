@@ -1,0 +1,12 @@
+{
+  "stub_commit": true,
+  "status": "committed",
+  "commit_sha": "pending",
+  "touched_files": ["src/toy.ts", "src/contracts/toy.ts"],
+  "out_of_scope": [
+    { "file": "src/contracts/toy.ts", "reason": "the DTO the row's parser returns has to be declared somewhere" }
+  ],
+  "diff_lines": 0,
+  "gate_recorded": true,
+  "notes": "stub implementer that declared its one out-of-scope file with a reason."
+}

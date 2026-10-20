@@ -1,0 +1,21 @@
+{
+  "verdict": "APPROVED",
+  "phase": "1",
+  "base": "HEAD~1",
+  "head": "HEAD",
+  "gate_recorded": true,
+  "findings": [
+    {
+      "id": "F1",
+      "severity": "WARNING",
+      "confidence": 90,
+      "file": "src/toy.ts",
+      "line": 1,
+      "summary": "toy export is divided by a value its consumer never validates",
+      "failure_scenario": "The consumer passes 0; the export divides by it and the caller stores Infinity.",
+      "fix": "Guard the divisor in the export and update the consumer's contract to pass a validated value.",
+      "dimension": "correctness"
+    }
+  ],
+  "observations": []
+}

@@ -1,0 +1,8 @@
+{
+  "finding_id": "T1",
+  "applied": false,
+  "commit_sha": null,
+  "touched_files": [],
+  "declared_extra": [],
+  "note": "needs-diagnosis — the brief names a symptom the stub cannot reproduce from the finding alone."
+}

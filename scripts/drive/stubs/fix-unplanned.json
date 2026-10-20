@@ -1,0 +1,8 @@
+{
+  "finding_id": "T1",
+  "applied": true,
+  "commit_sha": null,
+  "touched_files": ["src/sneaky.ts"],
+  "declared_extra": [],
+  "note": "Declared the unplanned file's reason in the phase notes; nothing else touched."
+}
