@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PermissionRequest": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$HOME/.codex/hooks/needs-input-alert.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
