@@ -1,0 +1,4 @@
+node_modules/
+.claude/worktrees/
+work/changes/*/drive/
+*.log
