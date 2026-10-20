@@ -29,7 +29,7 @@ load for code you only read through `git diff`.
 | --- | --- |
 | `<change-id>` | `work/changes/<id>/plan.md` (a plan path also works) |
 | `phase N` | that phase; without it, every `[x]` phase |
-| `--base <sha> --head <sha>` | review exactly this range (the engine always passes one) |
+| `--base <sha> --head <sha>` | review exactly this range (the engine names the phase's range in its prompt instead; treat that the same way) |
 | `--lens drift` / `--lens safety` | review one half (see Lenses) |
 | `--rereview` | convergence pass after fixes (see Re-review) |
 | nothing | the change with the newest `updated:` and `status: in-progress` or `implemented`; confirm with one question |
